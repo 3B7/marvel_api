@@ -1,0 +1,56 @@
+<div class="jumbotron" style="margin-top:50px">
+  <div class="text-center">
+    <h2>TaxJar<br><small>MarvelAPI Take Home Challenge</small></h2>
+  </div>
+</div>
+
+<blockquote>Tasks</blockquote>
+
+<div class="panel panel-default">
+  <div class="panel-heading">1. Refactor. Make something worth sharing.</div>
+  <div class="panel-body">
+    <p>To keep things DRY makes sense to add <code>Uri.parse</code> and the <code>Net::HTTP.new</code> object in the initialize method.</p>
+    <pre>
+    attr_reader :public_key, :private_key, :http
+
+    def initialize(options={})
+      @public_key= 'YOUR-PUBLIC-KEY'
+      @private_key= 'YOUR-PRIVATE-KEY'
+      uri= URI.parse("http://gateway.marvel.com")
+      @http =  Net::HTTP.new(uri.host, uri.port)
+    end
+    </pre>
+    <p>We can also get ride of the <code>to_csv</code> method. It pretty much does the same as Rubys <code>join</code>method.</p>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">2. Find the total number of characters in Marvel catalog</div>
+  <div class="panel-body">
+    <pre>
+      Marvel.new.get_the_characters('1')['total']
+    </pre>
+      Total number of characters is <b><%= @total %></b>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">3. Grab a character from the list and display their thumbnail url</div>
+  <div class="panel-body">
+    <pre>
+      # since get_the_character method already limits the result to 1, I'm just using that one
+      Marvel.new.get_the_characters('1')['results'][0]['thumbnail'].values.join(".")
+    </pre>
+    <a href="<%= @img %>" target="_blank">Image link</a>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">4. List just the character names in the comics id of 30090 and 162</div>
+  <div class="panel-body">
+    <pre>
+      Marvel.new.people_in_comics([162,30090]).collect{|r| r['name'] }.join(", ")
+    </pre>
+    <p>The following are the characters are present in the comics with id 162, 30090: <b><%= @character_names %></b>.</p>
+  </div>
+</div>
